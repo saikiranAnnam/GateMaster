@@ -29,6 +29,11 @@ With a strong focus on security and scalability, the final phase centers on perm
 * `Thunder Client` (REST client)
 * `Express.js & Express.js middleware`
 
+## Helpful files
+- CMD - Commands used in the video
+- api.json - Thunder Client collection
+
+
 
 ## 📝 Process
 
