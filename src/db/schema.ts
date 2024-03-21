@@ -54,3 +54,30 @@ export const roles = pgTable(
       };
     }
   );
+
+  // many to many relation btw users and roles
+  export const usersToRoles = pgTable(
+    "usersToRoles",
+    {
+      applicationId: uuid("applicationId")
+        .references(() => applications.id)
+        .notNull(),
+
+      roleId: uuid("roledId")
+        .references(() => roles.id)
+        .notNull(),
+
+      userId: uuid("userId")
+        .references(() => users.id)
+        .notNull(),
+    },
+    (usersToRoles) => {
+      return {
+        cpk: primaryKey(
+          usersToRoles.applicationId,
+          usersToRoles.roleId,
+          usersToRoles.userId
+        ),
+      };
+    }
+  );
