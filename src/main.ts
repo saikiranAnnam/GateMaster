@@ -1,6 +1,8 @@
 import { env } from "./config/env";
 import logger from "./utils/logger";
 import { buildServer } from "./utils/server";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
+import { db } from "./db";
 
 // kill the procees on the port i.e 3000
 async function gracefulShutdown({
@@ -17,6 +19,10 @@ async function main() {
   await server.listen({
     port: env.PORT,
     host: env.HOST,
+  });
+
+  await migrate(db, {
+    migrationsFolder: "./migrations",
   });
 
   // SIGINT - signal interupte
