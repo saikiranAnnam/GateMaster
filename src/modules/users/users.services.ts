@@ -4,8 +4,9 @@ import { db } from "../../db";
 import { users, applications, usersToRoles } from "../../db/schema";
 
 export async function createUser(data: InferModel<typeof users, "insert">) {
-  // hashing the password using argon2
+    // hashed password 
   const hashedPassword = await argon2.hash(data.password);
+
   const result = await db
     .insert(users)
     .values({
@@ -22,9 +23,8 @@ export async function createUser(data: InferModel<typeof users, "insert">) {
   return result[0];
 }
 
-// getting all users for the application
 export async function getUsersByApplication(applicationId: string) {
-  const result = db
+  const result = await db
     .select()
     .from(users)
     .where(eq(users.applicationId, applicationId));
@@ -36,5 +36,7 @@ export async function assignRoleTouser(
   data: InferModel<typeof usersToRoles, "insert">
 ) {
   const result = await db.insert(usersToRoles).values(data).returning();
+
   return result[0];
 }
+  

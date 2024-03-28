@@ -15,12 +15,12 @@ export async function getRoleByName({
   name: string;
   applicationId: string;
 }) {
-  // SQL --> drizzle orm
   const result = await db
+    // SELECT *
     .select()
-    // SELECT * FROM roles
+    // FROM roles
     .from(roles)
-    // where name = $1(parm1) AND applicationId $2(parm2)
+    // WHERE name = ? AND applicationId ?
     .where(and(eq(roles.name, name), eq(roles.applicationId, applicationId)))
     .limit(1);
 
