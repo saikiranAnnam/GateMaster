@@ -9,8 +9,8 @@ export const ALL_PERMISSIONS = [
   // posts
   "posts:write",
   "posts:read",
-  "post:delete",
-  "post:edit-own",
+  "posts:delete",
+  "posts:edit-own",
 ] as const;
 
 // converting object into a permission array
