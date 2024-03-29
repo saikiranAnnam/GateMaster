@@ -20,7 +20,7 @@ export async function userRoutes(server: FastifyInstance) {
     "/roles",
     {
       schema: assignRoleTouserJsonSchema,
-      // preHandler: [app.guard.scope(PERMISSIONS["users:roles:write"])],
+      preHandler: [server.guard.scope(PERMISSIONS["users:roles:write"])],
     },
     assignRoleTouserHandler
   );
