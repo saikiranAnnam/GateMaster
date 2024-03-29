@@ -1,12 +1,15 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { SYSTEM_ROLES } from "../../config/permissions";
 import { getRoleByName } from "../roles/roles.services";
-import { CreateUserBody } from "./users.schemas";
+import { CreateUserBody, LoginBody } from "./users.schemas";
 import {
   assignRoleTouser,
   createUser,
+  getUserByEmail,
   getUsersByApplication,
 } from "./users.services";
+import jwt from "jsonwebtoken";
+
 
 
 export async function createUserHandler(
@@ -66,3 +69,41 @@ export async function createUserHandler(
     return user;
   } catch (e) {}
 }
+
+
+export async function loginHandler(
+  request: FastifyRequest<{
+    Body: LoginBody;
+  }>,
+  reply: FastifyReply
+){
+  const {applicationId, email, password} = request.body;
+
+  // fetching the user details
+  const user = await getUserByEmail({
+    applicationId, 
+    email
+  });
+
+  
+
+  //user not exist
+  if(!user){
+     return reply.code(400).send({
+      message: "User not found or invalid email or passwords"
+     })
+  }
+  //assigning the jwt token for the user
+  const token = jwt.sign(
+    {
+      id : user.id,
+      email, 
+      applicationId, 
+      scopes: user.permissions
+    },
+    "secret" // for default  i am keeping secert
+  ); // change this secret or signing method, or get fired
+
+  return {token};
+
+};

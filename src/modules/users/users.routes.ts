@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
-import { createUserHandler } from "./users.controllers";
-import { createUserJsonSchema } from "./users.schemas";
+import { createUserHandler, loginHandler } from "./users.controllers";
+import { createUserJsonSchema, loginJsonSchema } from "./users.schemas";
 
 export async function userRoutes(server: FastifyInstance) {
   server.post(
@@ -10,4 +10,6 @@ export async function userRoutes(server: FastifyInstance) {
     },
     createUserHandler
   );
+
+  server.post("/login", { schema: loginJsonSchema }, loginHandler);
 }
