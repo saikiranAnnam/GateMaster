@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
-import { createUserHandler, loginHandler } from "./users.controllers";
-import { createUserJsonSchema, loginJsonSchema } from "./users.schemas";
+import { PERMISSIONS } from "../../config/permissions";
+import { assignRoleTouserHandler, createUserHandler, loginHandler } from "./users.controllers";
+import { AssignRoleToUserBody, assignRoleTouserJsonSchema, createUserJsonSchema, loginJsonSchema } from "./users.schemas";
 
 export async function userRoutes(server: FastifyInstance) {
   server.post(
@@ -12,4 +13,15 @@ export async function userRoutes(server: FastifyInstance) {
   );
 
   server.post("/login", { schema: loginJsonSchema }, loginHandler);
+
+  server.post<{
+    Body: AssignRoleToUserBody;
+  }>(
+    "/roles",
+    {
+      schema: assignRoleTouserJsonSchema,
+      // preHandler: [app.guard.scope(PERMISSIONS["users:roles:write"])],
+    },
+    assignRoleTouserHandler
+  );
 }
