@@ -11,6 +11,8 @@ For example, if you were using RBAC to control access for an HR application, you
 This project illuminates the creation of a multi-tenant application(eg: HR application, shopify store), providing guidance on user registration, role assignment, and permission management. 
 With a strong focus on security and scalability, the final phase centers on permission validation using a guard mechanism. 
 
+### Architecture design
+![](arch.png)
 
 ## 🚀 Features
 
